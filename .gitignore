@@ -1,0 +1,88 @@
+# ============= #
+#   Unity       #
+# ============= #
+
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+[Uu]serSettings/    # à garder ignoré si tu veux éviter les prefs persos
+
+# Cache générés
+/[Aa]ssets/AssetStoreTools*
+/[Aa]ssets/StreamingAssets/UnityCache/
+
+# Collaborate
+/[Cc]ollab/
+
+# Crash Reports
+sysinfo.txt
+
+# ============= #
+#   IDE / Tools  #
+# ============= #
+
+# Visual Studio
+.vs/
+.vscode/
+*.csproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.opendb
+*.VC.db
+
+# Rider
+.idea/
+*.sln.iml
+
+# ============= #
+#   OS Files     #
+# ============= #
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux
+*~
+
+# ============= #
+#   Unity Cloud  #
+# ============= #
+
+/[Uu]nityPackageManager/diagnostic.reporter.json
+
+# ============= #
+#   Builds       #
+# ============= #
+
+*.apk
+*.aab
+*.xcodeproj
+*.xcworkspace
+*.xcuserstate
+*.app
+*.ipa
+
+# ============= #
+#   Other       #
+# ============= #
+
+*.log
