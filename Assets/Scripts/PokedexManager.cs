@@ -59,21 +59,99 @@ public class PokedexManager : MonoBehaviour
     [Header("API")]
     [SerializeField] private string baseUrl = "https://localhost:7061/api/Monsters/pokedex";
 
+    [Header("Config")]
+    public int personnageId = 57;
+    public int pageSize = 21;
+
     [Header("UI")]
-    public Transform gridParent;           // Content de ton ScrollView
-    public MonsterCardUI cardPrefab;       // Prefab de la carte
-    public TextMeshProUGUI huntedCounter;  // (optionnel) texte "x / y chassés"
+    public Transform gridParent;
+    public MonsterCardUI cardPrefab;
+    public TextMeshProUGUI huntedCounter;
+    public TextMeshProUGUI pageText;
+    public TMP_InputField searchInputField;
+
+    string currentType = "";
+    int currentPage = 1;
+    string currentNameFilter = "";
+    bool isLastPage = false;
 
     // Appelé par exemple dans Start ou depuis un bouton
     private void Start()
     {
-        // Exemple avec les paramètres de ta requête
         StartCoroutine(LoadPokedex(
-            personnageId: 57,
-            page: 2,
-            pageSize: 20,
+            personnageId,
+            page: 1,
+            pageSize,
             type: "",
             nom: ""));
+
+        if (searchInputField != null)
+        {
+            searchInputField.onValueChanged.AddListener(OnSearchTextChanged);
+        }
+    }
+
+
+
+
+
+    // --- appelée par les boutons ---
+    public void OnFilterTypeClicked(string type)
+    {
+        // "All" -> pas de filtre
+        if (string.IsNullOrEmpty(type) || type == "All")
+            currentType = "";
+        else
+            currentType = type.ToLower();   // l’API attend "water", "fire", "grass", "steel", "dragon", etc.
+
+        currentPage = 1; // on revient page 1 quand on change de filtre
+
+        StartCoroutine(LoadPokedex(
+            personnageId,
+            currentPage,
+            pageSize,
+            currentType,
+            currentNameFilter));
+    }
+
+    public void OnSearchTextChanged(string text)
+    {
+        currentNameFilter = text;
+        currentPage = 1;
+
+        StartCoroutine(LoadPokedex(
+            personnageId,
+            currentPage,
+            pageSize,
+            currentType,
+            currentNameFilter));
+    }
+    public void NextPage()
+    {
+        // si on sait qu'on est à la dernière page, on ne va pas plus loin
+        if (isLastPage) return;
+
+        currentPage++;
+        StartCoroutine(LoadPokedex(
+            personnageId,
+            currentPage,
+            pageSize,
+            currentType,
+            currentNameFilter));
+    }
+
+    public void PreviousPage()
+    {
+        if (currentPage <= 1)
+            return;
+
+        currentPage--;
+        StartCoroutine(LoadPokedex(
+            personnageId,
+            currentPage,
+            pageSize,
+            currentType,
+            currentNameFilter));
     }
 
     public IEnumerator LoadPokedex(int personnageId, int page, int pageSize, string type, string nom)
