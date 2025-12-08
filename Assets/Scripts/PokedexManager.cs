@@ -60,7 +60,7 @@ public class PokedexManager : MonoBehaviour
     [SerializeField] private string baseUrl = "https://localhost:7061/api/Monsters/pokedex";
 
     [Header("Config")]
-    public int personnageId = 57;
+    int personnageId;
     public int pageSize = 21;
 
     [Header("UI")]
@@ -70,26 +70,26 @@ public class PokedexManager : MonoBehaviour
     public TextMeshProUGUI pageText;
     public TMP_InputField searchInputField;
 
+
     string currentType = "";
     int currentPage = 1;
     string currentNameFilter = "";
     bool isLastPage = false;
 
     // Appelé par exemple dans Start ou depuis un bouton
-    private void Start()
+    public void InitForCurrentPlayer()
     {
+        personnageId = GameSession.Instance.CurrentPersonnage.id;
+        currentPage = 1;
+
         StartCoroutine(LoadPokedex(
             personnageId,
-            page: 1,
+            page: currentPage,
             pageSize,
-            type: "",
-            nom: ""));
-
-        if (searchInputField != null)
-        {
-            searchInputField.onValueChanged.AddListener(OnSearchTextChanged);
-        }
+            type: currentType,
+            nom: currentNameFilter));
     }
+
 
 
 
